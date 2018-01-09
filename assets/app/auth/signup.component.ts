@@ -7,13 +7,17 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class SignupComponent implements OnInit{
     myForm: FormGroup;
 
+    onSubmit(){
+        console.log(this.myForm);
+    }
+
     ngOnInit(){
         this.myForm = new FormGroup({
             firstName: new FormControl(null, Validators.required),
             lastName: new FormControl(null, Validators.required),
             email: new FormControl(null, [
                 Validators.required,
-                Validators.pattern("^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$")
+                Validators.pattern("[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}")
                 ]),
             password: new FormControl(null, Validators.required)
         });
