@@ -20,7 +20,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.post('http://localhost:3000/message' + token, body, {headers: addHeader})
+        return this.http.post('https://fast-taiga-26678.herokuapp.com/message' + token, body, {headers: addHeader})
             .map((response: Response) => {
                 const result = response.json();
                 const message = new Message(
@@ -39,7 +39,7 @@ export class MessageService {
     }
 
     getMessages() {
-        return this.http.get('http://localhost:3000/message')
+        return this.http.get('https://fast-taiga-26678.herokuapp.com/message')
             .map((response: Response) => {
                 const messages = response.json().obj;
                 let transformedMessages: Message[] = [];
@@ -70,7 +70,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: addHeader})
+        return this.http.patch('https://fast-taiga-26678.herokuapp.com/message/' + message.messageId + token, body, {headers: addHeader})
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.errorHandle(error.json());
@@ -83,7 +83,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
+        return this.http.delete('https://fast-taiga-26678.herokuapp.com/message/' + message.messageId + token)
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.errorHandle(error.json());
