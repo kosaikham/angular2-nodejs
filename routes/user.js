@@ -30,33 +30,37 @@ router.post('/signin', function (req, res, next) {
     User.findOne({
         email: req.body.email
     }, function (err, user) {
-        if(err){
+        if (err) {
             return res.status(500).json({
                 title: 'An Error Occured',
                 error: err
             });
         }
 
-        if(!user){
+        if (!user) {
             return res.status(401).json({
                 title: 'Login Fail',
-                error: {message: 'Invalid Loing credentials'}
+                error: {message: 'Invalid Login credentials'}
             });
         }
 
-        if(!bcrypt.compare(req.body.password, user.password)){
-            return res.status(401).json({
-                title: 'Login Fail',
-                error: {message: 'Invalid Loing credentials'}
-            });
-        }
 
-        var token = jwt.sign({user: user}, 'secret', {expiresIn: 7200});
-        res.status(200).json({
-            message: 'Login success',
-            token: token,
-            userId: user._id
+        bcrypt.compare(req.body.password, user.password, function (err, result) {
+            if (!result) {
+                return res.status(401).json({
+                    title: 'Login Fail',
+                    error: {message: 'Invalid Login credentials'}
+                });
+            }
+
+            var token = jwt.sign({user: user}, 'secret', {expiresIn: 7200});
+            res.status(200).json({
+                message: 'Login success',
+                token: token,
+                userId: user._id
+            });
         });
+
 
     })
 });
